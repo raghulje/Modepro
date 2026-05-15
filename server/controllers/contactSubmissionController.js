@@ -1,0 +1,72 @@
+const status = require('../helpers/response');
+const { getRequestMeta, phoneToDigitsOnly } = require('../helpers/requestMeta');
+const { sendToKissflowWebhook } = require('../helpers/kissflowWebhook');
+const { validateContactSubmission } = require('../helpers/contactFormValidation');
+
+const WEBSITE_NAME = 'Modepro Live';
+const AGENT_ID = process.env.MODEPRO_AGENT_ID || '';
+
+function splitCityAndState(value) {
+  const raw = String(value || '').trim();
+  if (!raw) {
+    return { cityname: '', statename: '' };
+  }
+  const [cityname = '', ...rest] = raw.split(',');
+  return {
+    cityname: cityname.trim(),
+    statename: rest.join(',').trim(),
+  };
+}
+
+exports.create = async (req, res) => {
+  try {
+    const validated = validateContactSubmission(req.body);
+    if (!validated.ok) {
+      return status.badRequestResponse(res, validated.message);
+    }
+
+    const { name, email, mobile, message, city, product } = validated;
+    const { source, company } = req.body || {};
+
+    if (!AGENT_ID) {
+      console.warn('[Modepro] MODEPRO_AGENT_ID is not set — Kissflow payload will omit agentid');
+    }
+
+    const meta = getRequestMeta(req);
+    const phoneDigits = phoneToDigitsOnly(mobile);
+    const { cityname, statename } = splitCityAndState(city);
+
+    const webhookData = {
+      name,
+      email,
+      Phone_Number: phoneDigits,
+      ...(AGENT_ID ? { agentid: AGENT_ID } : {}),
+      Product: product,
+      city,
+      ...(cityname ? { cityname } : {}),
+      ...(statename ? { statename } : {}),
+      company: company ?? '',
+      message,
+      ...(validated.countryDialCode ? { countryDialCode: validated.countryDialCode } : {}),
+      ...meta,
+    };
+
+    sendToKissflowWebhook(WEBSITE_NAME, 'Contact form', webhookData);
+    console.log('[Modepro Live] Contact submission queued for Kissflow:', {
+      submissionId: `${WEBSITE_NAME}-${Date.now()}`,
+      name,
+      email,
+      company: company ?? '',
+      product,
+      city,
+      hasAgentId: Boolean(AGENT_ID),
+    });
+
+    return status.createdResponse(res, 'Contact submission received successfully', {
+      source: source || 'contact',
+    });
+  } catch (error) {
+    console.error('Create Contact Submission Error:', error);
+    return status.createdResponse(res, 'Contact submission received successfully', null);
+  }
+};

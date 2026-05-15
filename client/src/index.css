@@ -1,0 +1,802 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS variables — mirror modepro.co.in design tokens */
+:root {
+  --color-brand: #0798bc;
+  --color-brand-dark: #076e88;
+  --color-brand-nav: #0999bd;
+  --color-text: #000000;
+  --color-text-body: #3d3d3d;
+  --color-text-muted: #606060;
+  --color-link: #01355b;
+  --color-bg-section: #f8f8f8;
+  --color-bg-breadcrumb: #e6e6e6;
+  --color-footer-start: #07273d;
+  --color-footer-end: #07324f;
+  --color-copyright: #000000;
+  --color-border-dashed: #acacac;
+  --color-table-odd: #e2f4fd;
+  --color-table-even: #dddddd;
+  --color-table-alt: #e7e7e8;
+  --font-raleway: "Raleway", sans-serif;
+  --font-open-sans: "Open Sans", sans-serif;
+  --font-lato: "Lato", sans-serif;
+  --container-max: 1170px;
+  --transition-menu: 0.3s ease-in-out;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-raleway);
+    color: var(--color-text);
+    padding: 0;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .container-site {
+    @apply max-w-site mx-auto px-4 md:px-[15px];
+  }
+
+  /* Top utility bar — .modepro-pro-cont-main-line */
+  .top-bar {
+    @apply bg-brand relative z-[2] py-2.5;
+  }
+
+  .top-bar-inner {
+    @apply container-site text-right;
+  }
+
+  .top-bar-link {
+    @apply font-raleway text-modepro-base text-white no-underline hover:text-white;
+  }
+
+  /* Section titles — .welcome-title-text, .product-title-text, etc. */
+  .welcome-title-text {
+    @apply font-raleway text-[26px] text-black font-semibold py-[2%];
+  }
+
+  .welcome-title-text span {
+    @apply text-brand;
+  }
+
+  .welcome-title-text::after {
+    content: "";
+    @apply block w-full max-w-[200px] h-0.5 bg-brand mt-[5px] mx-auto relative;
+  }
+
+  .section-title {
+    @apply font-raleway text-modepro-3xl text-black font-semibold py-[2%] max-md:text-modepro-lg xs:max-md:text-[18px];
+  }
+
+  .section-title-center {
+    @apply section-title text-center;
+  }
+
+  .section-title-accent {
+    @apply text-brand;
+  }
+
+  .section-title-underline {
+    content: "";
+    @apply block w-full h-0.5 bg-brand mt-[5px] relative mx-auto;
+  }
+
+  /* Page hero titles — .rnd-title-text, .about-welcome-title-text */
+  .page-hero-title {
+    @apply font-raleway text-modepro-3xl text-black font-semibold text-center py-[2%] max-md:text-[18px];
+  }
+
+  .page-hero-title-bold {
+    @apply font-raleway text-modepro-3xl text-black font-bold text-center py-[2%] max-md:text-[18px];
+  }
+
+  /* Subsection — .ehs-infra-title-text, .about-who-we-title-text */
+  .subsection-title {
+    @apply font-raleway text-modepro-3xl text-brand pt-[1%] border-b border-dashed border-modepro-dashed no-underline max-md:text-modepro-xl;
+  }
+
+  .subsection-title-sm {
+    @apply font-raleway text-modepro-2xl text-brand font-bold no-underline;
+  }
+
+  /* Card / feature titles — .re-cap-title-text */
+  .feature-card-title {
+    @apply font-raleway text-modepro-xl text-modepro-muted font-bold my-[8%] mb-[3%] max-md:text-modepro-base max-md:my-[5%];
+  }
+
+  /* Body copy */
+  .text-body {
+    @apply font-raleway text-modepro-base text-black text-justify;
+  }
+
+  .text-body-muted {
+    @apply font-raleway text-modepro-md text-modepro-text text-justify;
+  }
+
+  /* Buttons — .read-more-bnt */
+  .btn-read-more {
+    @apply inline-block bg-brand font-open-sans text-white text-[15px] border-0 mt-[15px] py-2.5 px-[15px] min-w-[135px] text-center no-underline transition-colors hover:bg-brand-dark max-md:text-modepro-base;
+  }
+
+  /* Footer CTA — .current-bnt */
+  .btn-current {
+    @apply inline-block bg-brand font-open-sans text-white text-[15px] border-0 rounded-none mt-[15px] mb-[30px] py-2 px-3 text-center no-underline transition-colors hover:bg-brand-dark max-md:text-modepro-base float-left clear-both;
+  }
+
+  /* Breadcrumb — .main-breadcrumb-line */
+  .breadcrumb-bar {
+    @apply bg-modepro-breadcrumb;
+  }
+
+  .breadcrumb-nav {
+    @apply flex items-center flex-wrap gap-0 py-2 mb-[5px] list-none;
+  }
+
+  .breadcrumb-link {
+    @apply font-open-sans text-modepro-base text-brand-link no-underline hover:text-brand;
+  }
+
+  .breadcrumb-active {
+    @apply font-open-sans text-modepro-base text-brand font-bold no-underline;
+  }
+
+  .breadcrumb-separator {
+    @apply font-open-sans text-modepro-base text-brand-link mx-1;
+  }
+
+  /* Footer — .footer-main-line */
+  .footer-main {
+    background: #07273d;
+    background: linear-gradient(-90deg, #07273d, #07324f);
+    @apply py-[2%];
+  }
+
+  @media (max-width: 768px) {
+    .footer-main {
+      @apply bg-modepro-footer-mobile;
+      background: #083555;
+    }
+  }
+
+  /* .ft-hm-text, .ft-add-text — style.css footer */
+  .footer-col {
+    @apply min-w-0;
+  }
+
+  .footer-heading {
+    @apply font-raleway text-brand text-modepro-xl font-normal uppercase mb-[3%] block clear-both max-md:text-modepro-lg;
+  }
+
+  .footer-nav-list {
+    @apply flex flex-wrap list-none p-0 m-0 w-full clear-both gap-y-1;
+    padding: 5px 0;
+  }
+
+  .footer-nav-item {
+    @apply list-none pr-2;
+  }
+
+  .footer-nav-link {
+    @apply font-raleway text-white text-modepro-sm no-underline hover:text-brand;
+  }
+
+  .footer-address {
+    @apply font-raleway text-white text-modepro-sm leading-relaxed clear-both;
+  }
+
+  .footer-careers-text {
+    @apply mb-0;
+  }
+
+  .footer-bottom {
+    @apply relative mt-6 pt-4 clear-both;
+  }
+
+  .footer-bottom-inner {
+    @apply flex flex-col gap-4 pr-12 md:flex-row md:items-center md:justify-between;
+  }
+
+  .copy-text {
+    @apply font-open-sans text-white text-modepro-base m-0;
+  }
+
+  .footer-managed {
+    @apply flex items-center gap-2 flex-wrap;
+  }
+
+  .footer-managed-label {
+    @apply font-open-sans text-white text-modepro-base m-0;
+  }
+
+  .footer-managed-logo {
+    @apply inline-block leading-none;
+  }
+
+  .footer-managed-logo img {
+    @apply h-auto max-h-6 w-auto block;
+  }
+
+  .footer-scroll-top {
+    @apply absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    cursor: pointer;
+    border: 0;
+    border-radius: 50%;
+    background-color: #0798bc;
+    color: #07273d;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+  }
+
+  .footer-scroll-top:hover {
+    background-color: #0999bd;
+  }
+
+  .footer-scroll-top-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Side menu — menu.css + navgoco behaviour */
+  .main-menu-panel {
+    @apply fixed top-0 right-[-20em] bottom-0 w-[20em] z-[2000] overflow-auto bg-brand-nav text-[15px] transition-[right] duration-300 ease-in-out;
+  }
+
+  .main-menu-panel.is-open {
+    @apply right-0;
+  }
+
+  .main-menu-panel .main-menu > .menu-item > .menu-link {
+    @apply relative block;
+  }
+
+  .main-menu-panel .main-menu > .menu-item > .menu-link .caret {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    margin-top: -2px;
+    width: 0;
+    height: 0;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    content: "";
+  }
+
+  .main-menu-panel .main-menu > .menu-item.open > .menu-link .caret {
+    border-top: none;
+    border-bottom: 4px solid #fff;
+    margin-top: 2px;
+  }
+
+  .main-menu-sub {
+    @apply hidden;
+  }
+
+  .main-menu-sub.is-open {
+    @apply block;
+  }
+
+  .main-menu-panel .sub-nav {
+    @apply border-0 py-1 px-3;
+  }
+
+  .menu-panel {
+    @apply bg-brand-nav;
+  }
+
+  .menu-close-bg {
+    @apply bg-brand-dark;
+  }
+
+  .menu-close-btn {
+    @apply flex items-center gap-3 border-0 bg-transparent cursor-pointer text-white uppercase font-bold tracking-wide hover:opacity-90 p-0;
+  }
+
+  .menu-close-label {
+    @apply font-raleway text-base leading-none;
+  }
+
+  .menu-close-x {
+    @apply text-[28px] leading-none font-normal;
+  }
+
+  .menu-item {
+    @apply border-b border-[#c6c6c6] text-[13px] py-3 px-3;
+  }
+
+  .menu-link {
+    @apply text-white uppercase no-underline hover:text-brand-nav-hover;
+  }
+
+  .menu-sublink {
+    @apply text-white capitalize no-underline text-[13px] hover:text-black;
+  }
+
+  /* nav-expander — original menu.css */
+  .menu-trigger {
+    @apply inline-flex items-center border-0 bg-transparent p-0 cursor-pointer hover:opacity-90 transition-opacity;
+  }
+
+  .menu-trigger-label {
+    @apply font-raleway text-modepro-lg text-brand font-bold pr-2 leading-none;
+  }
+
+  .menu-toggle {
+    @apply bg-brand flex flex-col items-center justify-center gap-[4px] h-[33px] w-[33px] p-2 rounded shrink-0;
+  }
+
+  .menu-toggle-bar {
+    @apply block h-[3px] w-[17px] bg-white rounded-full;
+  }
+
+  /* Product media cards — hover-effect.css */
+  .media-card {
+    @apply inline-block relative align-top bg-brand-media text-center py-[30px] px-2.5 w-full max-w-[263px] my-2.5;
+  }
+
+  /* Gallery thumbnail */
+  .gallery-thumb {
+    @apply w-full max-w-[82px] h-auto m-px max-md:max-w-[48px];
+  }
+
+  /* Tables — capabilities */
+  .cap-table-header {
+    @apply font-raleway text-modepro-lg text-white bg-brand-table uppercase tracking-table;
+  }
+
+  .cap-table-cell-odd {
+    @apply font-raleway text-modepro-base text-black p-2 bg-modepro-table-odd;
+  }
+
+  .cap-table-cell-even {
+    @apply font-raleway text-modepro-base text-black p-2 bg-modepro-table-alt;
+  }
+
+  /* Image border — .kur-img-mar */
+  .image-border-brand {
+    @apply border-4 border-brand;
+  }
+
+  /* Content list — .contentarea ul li */
+  .content-list-item {
+    @apply list-[square] py-[3px] text-brand leading-5 my-2.5;
+  }
+
+  .content-list-item span {
+    @apply text-black;
+  }
+
+  /* Section backgrounds */
+  .bg-section-gray {
+    @apply bg-modepro-section;
+  }
+
+  /* Welcome section spacing — .text-img-line */
+  .text-img-line {
+    @apply py-[5%] max-md:my-[5%];
+  }
+
+  .re-cap-gal-main-line {
+    @apply my-[3%];
+  }
+
+  .gal-box {
+    @apply p-2.5;
+  }
+
+  .hm-gal-main {
+    @apply my-5;
+  }
+
+  /* Home banner carousel — slider.css + bootstrap carousel */
+  .carousel-control {
+    @apply absolute top-1/2 -translate-y-1/2 z-20 w-10 h-10 border-0 bg-transparent p-0 cursor-pointer opacity-80 hover:opacity-100;
+  }
+
+  .carousel-control-prev {
+    @apply left-3 md:left-5;
+  }
+
+  .carousel-control-next {
+    @apply right-3 md:right-5;
+  }
+
+  .carousel-control-icon {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: rotate(-45deg);
+    margin-left: 4px;
+  }
+
+  .carousel-control-icon-next {
+    transform: rotate(135deg);
+    margin-left: 0;
+    margin-right: 4px;
+  }
+
+  .carousel-indicators {
+    @apply absolute bottom-[7%] left-1/2 -translate-x-1/2 z-20 flex items-center justify-center gap-1 list-none m-0 p-0;
+  }
+
+  .carousel-indicators li {
+    @apply list-none;
+  }
+
+  .carousel-indicators button {
+    @apply block w-2.5 h-2.5 p-0 rounded-full border border-white opacity-70 bg-transparent cursor-pointer transition-all duration-300;
+  }
+
+  .carousel-indicators button.is-active {
+    @apply opacity-100 bg-brand border-brand;
+  }
+
+  .main-gal-photo-line {
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border 0.2s ease-in-out;
+  }
+
+  .main-gal-photo-line img {
+    border-radius: 4px;
+  }
+
+  .img-responsive {
+    @apply block max-w-full h-auto;
+  }
+
+  .gallery-row {
+    @apply flex flex-wrap -mx-[15px];
+  }
+
+  .gallery-col {
+    @apply w-full sm:w-1/2 md:w-1/4 px-[15px];
+  }
+
+  /* Products page — .product-title-text, tabs from style-new.css */
+  .product-title-text {
+    @apply font-raleway text-[26px] text-black font-semibold text-center py-[2%] pb-[1%] max-md:text-[18px];
+  }
+
+  .product-title-text span {
+    @apply text-brand;
+  }
+
+  .product-title-text::after {
+    content: "";
+    @apply block w-full max-w-[292px] h-0.5 bg-brand mt-[5px] mx-auto relative;
+  }
+
+  .quality-pg-info-text {
+    @apply font-raleway text-[15px] text-black my-[2%];
+  }
+
+  .title-bg-color {
+    background-color: #bdcee7 !important;
+    @apply font-raleway text-base text-black font-bold;
+  }
+
+  .name-str-cas1 {
+    background-color: #e2f4fd !important;
+  }
+
+  .name-str-cas2 {
+    background-color: #e7e7e8 !important;
+  }
+
+  .tab_wrapper {
+    @apply my-2.5 mb-[50px] inline-block w-full relative;
+  }
+
+  .tab_wrapper > ul.tab_list {
+    @apply clear-both inline-block w-full list-none m-0 p-0;
+    border-bottom: 1px solid #49a4d9;
+  }
+
+  .tab_wrapper > ul.tab_list li {
+    @apply float-left cursor-pointer font-bold py-2 px-[18px] uppercase relative;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+    border-top-width: 3px;
+    border-top-color: #ccc;
+    font-size: 1.05em;
+    color: #999;
+    margin: 0 5px 0 0;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .tab_wrapper > ul.tab_list li.active {
+    border-color: #49a4d9;
+    color: #49a4d9;
+  }
+
+  .tab_wrapper > ul.tab_list li.active::after {
+    content: "";
+    @apply absolute -bottom-px left-0 w-full h-px bg-white;
+  }
+
+  .tab_wrapper .content_wrapper {
+    @apply float-left w-full box-border;
+    border: 1px solid #49a4d9;
+    border-top: 0;
+  }
+
+  .tab_wrapper .content_wrapper .tab_content {
+    @apply hidden p-0;
+  }
+
+  .tab_wrapper .content_wrapper .tab_content.active {
+    @apply block;
+  }
+
+  .products-table {
+    @apply w-full border-collapse font-raleway text-sm mb-0;
+  }
+
+  .products-table th,
+  .products-table td {
+    @apply border border-gray-300 align-middle px-3 py-2;
+  }
+
+  .products-table thead th {
+    @apply font-semibold text-black bg-white;
+  }
+
+  .products-table td img {
+    @apply h-20 w-auto object-contain;
+  }
+
+  .welcome-info-text {
+    @apply font-raleway text-modepro-base text-black text-justify;
+  }
+
+  .about-welcome-title-text {
+    @apply font-raleway text-[26px] text-black font-semibold text-center py-[2%] pb-[1%];
+  }
+
+  .about-welcome-title-text span {
+    @apply text-brand;
+  }
+
+  .about-welcome-title-text::after {
+    content: "";
+    @apply block w-full max-w-[229px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .about-who-we-title-text {
+    @apply mb-[25px] border-b border-dashed border-modepro-dashed;
+  }
+
+  .about-who-we-title-text a {
+    @apply font-raleway text-modepro-xl text-brand font-bold no-underline;
+  }
+
+  .about-who-we-info-text {
+    @apply font-raleway text-[15px] text-modepro-text text-justify;
+  }
+
+  .pho-gal-title-text,
+  .rnd-title-text,
+  .manuf-title-text,
+  .qua-title-text,
+  .ehs-title-text,
+  .career-title-text,
+  .capa-title-text,
+  .cont-title-text {
+    @apply font-raleway text-[26px] text-black font-bold text-center;
+  }
+
+  .rnd-title-text {
+    @apply font-semibold py-[2%];
+  }
+
+  .cont-title-text {
+    @apply font-semibold py-[3%];
+  }
+
+  .pho-gal-title-text {
+    @apply my-[2%] mb-[3%];
+  }
+
+  .manuf-title-text,
+  .qua-title-text,
+  .career-title-text,
+  .capa-title-text {
+    @apply py-[2%];
+  }
+
+  .ehs-title-text {
+    @apply pt-[2%];
+  }
+
+  .pho-gal-title-text span,
+  .rnd-title-text span,
+  .cont-title-text span {
+    @apply text-brand;
+  }
+
+  .pho-gal-title-text::after {
+    content: "";
+    @apply block w-full max-w-[208px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .rnd-title-text::after {
+    content: "";
+    @apply block w-full max-w-[344px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .manuf-title-text::after {
+    content: "";
+    @apply block w-full max-w-[182px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .qua-title-text::after,
+  .career-title-text::after {
+    content: "";
+    @apply block w-full max-w-[80px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .ehs-title-text::after {
+    content: "";
+    @apply block w-full max-w-[50px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .capa-title-text::after {
+    content: "";
+    @apply block w-full max-w-[145px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .cont-title-text::after {
+    content: "";
+    @apply block w-full max-w-[160px] h-0.5 bg-brand mt-[5px] mx-auto;
+  }
+
+  .cap-table-title-text {
+    @apply font-raleway text-[18px] text-white;
+    background-color: #0d6d97;
+  }
+
+  .cap-table-info-text1 {
+    @apply font-raleway text-modepro-base text-black p-2;
+    background-color: #e2f4fd;
+  }
+
+  .cap-table-info-text2 {
+    @apply font-raleway text-modepro-base text-black p-2;
+    background-color: #e7e7e8;
+  }
+
+  .contentarea ul {
+    margin: 0;
+    padding-left: 40px;
+    list-style-position: outside;
+  }
+
+  .contentarea ul li {
+    list-style-type: square;
+    padding: 3px 0;
+    color: #0798bc;
+    line-height: 20px;
+    margin: 10px 0;
+    display: list-item;
+  }
+
+  .contentarea ul li span {
+    color: #000;
+  }
+
+  .kur-img-mar {
+    @apply mt-[3%] border-4 border-solid border-brand;
+  }
+
+  .pro-quality-respect-envi-main {
+    background-color: #f8f8f8;
+  }
+
+  .process-title-text {
+    @apply font-raleway text-modepro-xl text-brand font-bold pb-5;
+  }
+
+  .process-title-text a {
+    @apply text-brand no-underline;
+  }
+
+  .process-info-text,
+  .quality-info-text,
+  .respect-info-text,
+  .environment-info-text {
+    @apply font-raleway text-[15px] text-modepro-text text-justify;
+  }
+
+  .cont-add-title {
+    @apply font-raleway text-[18px] text-black font-bold;
+  }
+
+  .cont-add-info-text {
+    font-family: "Lato", sans-serif;
+    @apply text-[16px] text-black pb-[3%];
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Title underline width utilities */
+  .underline-w-welcome {
+    max-width: 200px;
+  }
+  .underline-w-product {
+    max-width: 292px;
+  }
+  .underline-w-about {
+    max-width: 229px;
+  }
+  .underline-w-gallery {
+    max-width: 208px;
+  }
+  .underline-w-ehs {
+    max-width: 50px;
+  }
+  .underline-w-rnd {
+    max-width: 344px;
+  }
+  .underline-w-manufacturing {
+    max-width: 182px;
+  }
+  .underline-w-quality {
+    max-width: 80px;
+  }
+  .underline-w-career {
+    max-width: 80px;
+  }
+  .underline-w-capabilities {
+    max-width: 145px;
+  }
+  .underline-w-contact {
+    max-width: 160px;
+  }
+
+  @media (max-width: 425px) {
+    .underline-w-product {
+      max-width: 205px;
+    }
+    .underline-w-about {
+      max-width: 152px;
+    }
+    .underline-w-manufacturing {
+      max-width: 125px;
+    }
+    .underline-w-rnd {
+      max-width: 235px;
+    }
+    .underline-w-contact {
+      max-width: 110px;
+    }
+    .underline-w-capabilities {
+      max-width: 100px;
+    }
+  }
+}
