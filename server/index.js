@@ -1,10 +1,13 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({
+  path: path.join(__dirname, '.env'),
+  override: true,
+});
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = Number(process.env.PORT) || 3020;
 
 app.set('trust proxy', true);
 

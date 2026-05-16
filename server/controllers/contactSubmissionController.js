@@ -1,6 +1,7 @@
 const status = require('../helpers/response');
 const { getRequestMeta, phoneToDigitsOnly } = require('../helpers/requestMeta');
 const { sendToKissflowWebhook } = require('../helpers/kissflowWebhook');
+const { sendContactEmails } = require('../helpers/emailService');
 const { validateContactSubmission } = require('../helpers/contactFormValidation');
 
 const WEBSITE_NAME = 'Modepro Live';
@@ -52,6 +53,18 @@ exports.create = async (req, res) => {
     };
 
     sendToKissflowWebhook(WEBSITE_NAME, 'Contact form', webhookData);
+
+    sendContactEmails({
+      name,
+      email,
+      mobile,
+      product,
+      message,
+      city,
+      company: company ?? '',
+      source: source || 'contact',
+    });
+
     console.log('[Modepro Live] Contact submission queued for Kissflow:', {
       submissionId: `${WEBSITE_NAME}-${Date.now()}`,
       name,

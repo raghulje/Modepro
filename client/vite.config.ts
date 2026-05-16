@@ -1,6 +1,19 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+
+/** Read PORT from server/.env so the client dev proxy stays in sync (no client/.env). */
+function getServerPort(): number {
+  const envPath = resolve(__dirname, "../server/.env");
+  if (!existsSync(envPath)) return 3020;
+  const match = readFileSync(envPath, "utf8").match(/^PORT=(\d+)/m);
+  return match ? Number(match[1]) : 3020;
+}
+
+const serverPort = getServerPort();
+const apiProxyTarget =
+  process.env.VITE_PROXY_TARGET || `http://127.0.0.1:${serverPort}`;
 import AutoImport from "unplugin-auto-import/vite";
 // import { readdyJsxRuntimeProxyPlugin } from "./vite.jsx-runtime-proxy";
 
@@ -85,7 +98,7 @@ export default defineConfig({
     host: "0.0.0.0",
     proxy: {
       "/api": {
-        target: process.env.VITE_PROXY_TARGET || "http://127.0.0.1:3002",
+        target: apiProxyTarget,
         changeOrigin: true,
         secure: false,
       },
