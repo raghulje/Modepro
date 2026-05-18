@@ -2,8 +2,14 @@
 
 Import in this order in MySQL Workbench or CLI:
 
+**Option A — schema + seed (recommended for fresh setup)**
+
 1. `modepro_cms_setup.sql` — creates schema
 2. `modepro_seed_data.sql` — inserts all content from `client/src/mocks` (images paths, text, 83 products, 31 nav items, 7 CMS pages)
+
+**Option B — full MySQL dump (schema + data in one file)**
+
+1. `modepro_cms.sql` — complete `mysqldump` of `modepro_cms` (tables + rows)
 
 If the database already exists, also run:
 
