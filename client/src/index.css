@@ -779,6 +779,16 @@
     max-width: 160px;
   }
 
+  /* Contact form — phone country list above fields below (City, Product, etc.) */
+  .react-tel-input {
+    position: relative;
+    z-index: 1;
+  }
+
+  .react-tel-input .country-list {
+    z-index: 9999 !important;
+  }
+
   @media (max-width: 425px) {
     .underline-w-product {
       max-width: 205px;

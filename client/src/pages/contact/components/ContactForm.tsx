@@ -460,12 +460,12 @@ export default function ContactForm() {
                     />
                   </Field>
 
-                  <div className="relative z-[200]">
+                  <div className="relative z-50 overflow-visible">
                     <span className="block text-sm font-medium text-gray-700 mb-1.5 font-raleway">
                       Mobile <span className="text-red-500">*</span>
                     </span>
                     <div
-                      className={`pl-10 pr-2 py-1.5 border rounded-lg focus-within:ring-2 focus-within:ring-brand ${
+                      className={`overflow-visible pl-10 pr-2 py-1.5 border rounded-lg focus-within:ring-2 focus-within:ring-brand ${
                         fieldErrors.mobile ? inputError : inputOk
                       }`}
                     >
@@ -501,7 +501,7 @@ export default function ContactForm() {
                         containerClass="w-full"
                         inputClass="!w-full !border-0 !shadow-none focus:!outline-none !bg-transparent !pl-10"
                         buttonClass="!bg-transparent !border-0"
-                        dropdownClass="!text-sm !z-[500]"
+                        dropdownClass="!text-sm !z-[9999]"
                         placeholder="Enter your phone number"
                       />
                     </div>
@@ -510,7 +510,7 @@ export default function ContactForm() {
                     )}
                   </div>
 
-                  <div className="relative z-[300]">
+                  <div className="relative z-10">
                     <label className="block text-sm font-medium text-gray-700 mb-1.5 font-raleway">
                       City <span className="text-red-500">*</span>
                     </label>
