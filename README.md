@@ -15,7 +15,7 @@ Production React rebuild of [modepro.co.in](https://modepro.co.in), structured l
 | **Content updates** | CMS dashboard | Edit `client/src/mocks/*.ts` (+ optional scripts) |
 | **Frontend** | `client/` (Vite + React) | `client/` (Vite + React) |
 | **Production build** | `client/out/` | `client/out/` |
-| **Backend** | `server/` (Express, port 3002) | `server/` (Express, port **3020** via `server/.env`) |
+| **Backend** | `server/` (Express, port 3002) | `server/` (Express, port **3049** via `server/.env`) |
 | **Single-server deploy** | API + serves `client/out` | API + serves `client/out` |
 | **Contact form** | Kissflow webhook | Kissflow webhook + Agentic AI success UI |
 | **Env file** | `server/.env` | `server/.env` |
@@ -74,13 +74,13 @@ copy .env.example .env    # Windows
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `PORT` | No | API + SPA port (default **`3020`**) |
+| `PORT` | No | API + SPA port (default **`3049`**) |
 | `MODEPRO_AGENT_ID` | **Yes (production)** | Kissflow agent ID for **Agentic AI** outbound calls |
 
 Example:
 
 ```env
-PORT=3020
+PORT=3049
 MODEPRO_AGENT_ID=your-kissflow-agent-id-here
 ```
 
@@ -91,7 +91,7 @@ MODEPRO_AGENT_ID=your-kissflow-agent-id-here
 | Item | Notes |
 |------|--------|
 | **Dev UI** | Vite on **5173** (fixed in `vite.config.ts`) |
-| **API proxy** | Uses `PORT` from `../server/.env` (e.g. `http://127.0.0.1:3020`) |
+| **API proxy** | Uses `PORT` from `../server/.env` (e.g. `http://127.0.0.1:3049`) |
 | **Production** | Same origin as the server — no env vars on the client |
 
 Optional build-time override only if you deploy under a subpath: `BASE_PATH=/subdir/` when running `npm run build`.
@@ -100,7 +100,7 @@ Optional build-time override only if you deploy under a subpath: `BASE_PATH=/sub
 
 ## Local development
 
-Use **two terminals** (API on **3020**, UI on **5173**).
+Use **two terminals** (API on **3049**, UI on **5173**).
 
 ### Terminal 1 — API server
 
@@ -110,7 +110,7 @@ npm install
 npm run dev
 ```
 
-Runs at **http://localhost:3020** (or whatever `PORT` is in `server/.env`)
+Runs at **http://localhost:3049** (or whatever `PORT` is in `server/.env`)
 
 ### Terminal 2 — Frontend (Vite)
 
@@ -123,7 +123,7 @@ cd ..
 npm run dev
 ```
 
-Runs at **http://localhost:5173** (proxies `/api` → `http://127.0.0.1:3020` from `server/.env`).
+Runs at **http://localhost:5173** (proxies `/api` → `http://127.0.0.1:3049` from `server/.env`).
 
 Open **http://localhost:5173** in the browser.
 
@@ -171,10 +171,10 @@ The server:
 - Falls back to `index.html` for client-side routes (React Router)
 - Exposes API at `/api/*`
 
-Open **http://localhost:3020** (or your configured `PORT`).
+Open **http://localhost:3049** (or your configured `PORT`).
 
 ```text
-Modepro API server listening on http://localhost:3020
+Modepro API server listening on http://localhost:3049
 ```
 
 If `client/out` is missing, the API still runs but the site will not load — run `npm run build` first.
@@ -202,7 +202,7 @@ Point your domain to the Node process:
 
 ```nginx
 location / {
-    proxy_pass http://127.0.0.1:3020;
+    proxy_pass http://127.0.0.1:3049;
     proxy_http_version 1.1;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
@@ -324,7 +324,7 @@ npm start
 
 ### Contact form: city list empty or console errors
 
-- Ensure the **API is running** (`PORT` in `server/.env`, default **3020**)
+- Ensure the **API is running** (`PORT` in `server/.env`, default **3049**)
 - Open the site at **http://localhost:5173** in dev (not the API port)
 - If you change `PORT`, restart both server and Vite so the proxy picks it up
 
@@ -339,7 +339,7 @@ Run `npm run build` and confirm `client/out/index.html` exists.
 ### Port already in use
 
 ```powershell
-netstat -ano | findstr :3020
+netstat -ano | findstr :3049
 ```
 
 Change `PORT` in `server/.env` or stop the conflicting process.

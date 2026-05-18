@@ -4,8 +4,19 @@ const { sendToKissflowWebhook } = require('../helpers/kissflowWebhook');
 const { sendContactEmails } = require('../helpers/emailService');
 const { validateContactSubmission } = require('../helpers/contactFormValidation');
 
-const WEBSITE_NAME = 'Modepro Live';
+const WEBSITE_NAME = 'Modepro';
 const AGENT_ID = process.env.MODEPRO_AGENT_ID || '';
+
+/** Kissflow Product field: single product name, not tab | group | name. */
+function productForKissflow(product) {
+  const raw = String(product || '').trim();
+  if (!raw || raw === 'General Enquiry') return raw;
+  if (raw.includes(' | ')) {
+    const parts = raw.split(' | ').map((s) => s.trim());
+    return parts[parts.length - 1] || raw;
+  }
+  return raw;
+}
 
 function splitCityAndState(value) {
   const raw = String(value || '').trim();
@@ -42,7 +53,7 @@ exports.create = async (req, res) => {
       email,
       Phone_Number: phoneDigits,
       ...(AGENT_ID ? { agentid: AGENT_ID } : {}),
-      Product: product,
+      Product: productForKissflow(product),
       city,
       ...(cityname ? { cityname } : {}),
       ...(statename ? { statename } : {}),
@@ -65,7 +76,7 @@ exports.create = async (req, res) => {
       source: source || 'contact',
     });
 
-    console.log('[Modepro Live] Contact submission queued for Kissflow:', {
+    console.log('[Modepro] Contact submission queued for Kissflow:', {
       submissionId: `${WEBSITE_NAME}-${Date.now()}`,
       name,
       email,

@@ -6,9 +6,9 @@ import { resolve } from "node:path";
 /** Read PORT from server/.env so the client dev proxy stays in sync (no client/.env). */
 function getServerPort(): number {
   const envPath = resolve(__dirname, "../server/.env");
-  if (!existsSync(envPath)) return 3020;
+  if (!existsSync(envPath)) return 3049;
   const match = readFileSync(envPath, "utf8").match(/^PORT=(\d+)/m);
-  return match ? Number(match[1]) : 3020;
+  return match ? Number(match[1]) : 3049;
 }
 
 const serverPort = getServerPort();

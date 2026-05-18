@@ -7,7 +7,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3020;
+const PORT = Number(process.env.PORT) || 3049;
 
 app.set('trust proxy', true);
 
