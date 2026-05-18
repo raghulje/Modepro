@@ -286,7 +286,7 @@ export default function ContactForm() {
         mobileLocal: formData.mobileLocal.replace(/\D/g, ""),
         mobile: formData.phone.trim(),
         city: formData.city,
-        source: "modepro-live-contact",
+        source: typeof window !== "undefined" ? window.location.href : "modepro-contact",
       });
 
       if (response.success) {

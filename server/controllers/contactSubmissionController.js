@@ -30,6 +30,42 @@ function splitCityAndState(value) {
   };
 }
 
+/** Kissflow inquiry label (3iMedtech-style keys; Modepro has no inquiry field on form). */
+function inquiryFromProduct(product) {
+  const p = productForKissflow(product);
+  if (!p || p === 'General Enquiry') return 'General Information Request';
+  return 'Product Enquiry';
+}
+
+/** Payload keys and order aligned with Refex/Kissflow contact webhook spec. */
+function buildKissflowPayload(fields, meta) {
+  return {
+    name: fields.name,
+    email: fields.email,
+    Phone_Number: fields.phoneDigits,
+    agentid: AGENT_ID,
+    company: fields.company ?? '',
+    city: fields.city,
+    cityname: fields.cityname ?? '',
+    statename: fields.statename ?? '',
+    Product: productForKissflow(fields.product),
+    message: fields.message,
+    companySize: fields.companySize ?? '',
+    inquiry: fields.inquiry ?? inquiryFromProduct(fields.product),
+    timestamp: meta.timestamp,
+    dateTime: meta.dateTime,
+    date: meta.date,
+    time: meta.time,
+    ipAddress: meta.ipAddress,
+    userAgent: meta.userAgent,
+    deviceType: meta.deviceType,
+    browser: meta.browser,
+    countryCode: meta.countryCode,
+    referer: meta.referer,
+    source: meta.source,
+  };
+}
+
 exports.create = async (req, res) => {
   try {
     const validated = validateContactSubmission(req.body);
@@ -38,7 +74,7 @@ exports.create = async (req, res) => {
     }
 
     const { name, email, mobile, message, city, product } = validated;
-    const { source, company } = req.body || {};
+    const { company, companySize, inquiry } = req.body || {};
 
     if (!AGENT_ID) {
       console.warn('[Modepro] MODEPRO_AGENT_ID is not set — Kissflow payload will omit agentid');
@@ -48,20 +84,26 @@ exports.create = async (req, res) => {
     const phoneDigits = phoneToDigitsOnly(mobile);
     const { cityname, statename } = splitCityAndState(city);
 
-    const webhookData = {
-      name,
-      email,
-      Phone_Number: phoneDigits,
-      ...(AGENT_ID ? { agentid: AGENT_ID } : {}),
-      Product: productForKissflow(product),
-      city,
-      ...(cityname ? { cityname } : {}),
-      ...(statename ? { statename } : {}),
-      company: company ?? '',
-      message,
-      ...(validated.countryDialCode ? { countryDialCode: validated.countryDialCode } : {}),
-      ...meta,
-    };
+    const webhookData = buildKissflowPayload(
+      {
+        name,
+        email,
+        phoneDigits,
+        company,
+        city,
+        cityname,
+        statename,
+        product,
+        message,
+        companySize,
+        inquiry,
+      },
+      meta
+    );
+
+    if (!AGENT_ID) {
+      delete webhookData.agentid;
+    }
 
     sendToKissflowWebhook(WEBSITE_NAME, 'Contact form', webhookData);
 
@@ -73,7 +115,7 @@ exports.create = async (req, res) => {
       message,
       city,
       company: company ?? '',
-      source: source || 'contact',
+      source: meta.source || 'contact',
     });
 
     console.log('[Modepro] Contact submission queued for Kissflow:', {
@@ -87,7 +129,7 @@ exports.create = async (req, res) => {
     });
 
     return status.createdResponse(res, 'Contact submission received successfully', {
-      source: source || 'contact',
+      source: meta.source || 'contact',
     });
   } catch (error) {
     console.error('Create Contact Submission Error:', error);
