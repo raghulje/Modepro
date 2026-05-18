@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { MapPin } from "lucide-react";
-import { aboutData } from "@/mocks/aboutData";
+import { useAboutData } from "@/hooks/cms/useAboutData";
 
 export default function ManufacturingLocation() {
+  const { data: aboutData } = useAboutData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

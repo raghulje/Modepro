@@ -1,18 +1,28 @@
 {
   "name": "modepro-server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "seed": "node scripts/seed.js",
+    "seed:sql": "node scripts/generate-seed-sql.js",
+    "db:reset": "node scripts/reset-database.js"
   },
   "dependencies": {
     "@countrystatecity/countries": "^1.0.5",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "nodemailer": "^6.10.1"
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.4",
+    "nodemailer": "^6.10.1",
+    "sequelize": "^6.37.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

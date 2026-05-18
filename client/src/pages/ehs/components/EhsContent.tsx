@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { ehsData } from "@/mocks/ehsData";
+import { useEhsData } from "@/hooks/cms/pages";
 import OriginalBulletList from "@/components/feature/OriginalBulletList";
 
 export default function EhsContent() {
+  const { data: ehsData } = useEhsData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

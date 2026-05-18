@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { homeData } from "@/mocks/homeData";
+import { useSiteData } from "@/contexts/SiteDataContext";
 import PageHeader from "@/components/feature/PageHeader";
 
 export default function HeroCarousel() {
+  const { data: homeData } = useSiteData();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { homeData } from "@/mocks/homeData";
+import { useSiteData } from "@/contexts/SiteDataContext";
 
 export default function WelcomeSection() {
+  const { data: homeData } = useSiteData();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 

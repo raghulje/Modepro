@@ -9,7 +9,7 @@ import {
 import PhoneInput from "@/components/PhoneInputField";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { Building2, FlaskConical, Mail, MessageSquare, User } from "lucide-react";
-import { contactData } from "@/mocks/contactData";
+import { useContactData } from "@/hooks/cms/pages";
 import { api } from "@/utils/api";
 import { DEFAULT_COUNTRY_DIAL_CODE } from "@/utils/phoneCountryCodes";
 import {
@@ -115,6 +115,7 @@ function SuccessOverlay({ onDone }: { onDone: () => void }) {
 type FieldKey = "name" | "company" | "email" | "mobile" | "product" | "message" | "city";
 
 export default function ContactForm() {
+  const { data: contactData } = useContactData();
   const productOptionsByCategory = useMemo(
     () => groupProductOptionsByCategory(buildContactProductOptions()),
     []

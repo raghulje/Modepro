@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { productsData } from "@/mocks/productsData";
+import { useProductsData } from "@/hooks/cms/useProductsData";
 
 export default function ProductsIntro() {
+  const { data: productsData } = useProductsData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { manufacturingData } from "@/mocks/manufacturingData";
+import { useManufacturingData } from "@/hooks/cms/pages";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function ManufacturingHero() {
+  const { data: manufacturingData } = useManufacturingData();
   usePageTitle(pageTitles.manufacturing);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

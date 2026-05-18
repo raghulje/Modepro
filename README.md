@@ -10,9 +10,9 @@ Production React rebuild of [modepro.co.in](https://modepro.co.in), structured l
 
 | Area | Adonis_Antigravity | Modepro_Live |
 |------|-------------------|--------------|
-| **CMS / Admin** | Yes (MySQL + admin UI) | **No** — content is static TypeScript mocks |
-| **Database** | MySQL (Sequelize) | None |
-| **Content updates** | CMS dashboard | Edit `client/src/mocks/*.ts` (+ optional scripts) |
+| **CMS / Admin** | Yes (MySQL + admin UI) | **Yes** — `/admin/dashboard` (MySQL + CMS UI) |
+| **Database** | MySQL (Sequelize) | MySQL (`modepro_cms`) |
+| **Content updates** | CMS dashboard | CMS dashboard (falls back to mocks if API unavailable) |
 | **Frontend** | `client/` (Vite + React) | `client/` (Vite + React) |
 | **Production build** | `client/out/` | `client/out/` |
 | **Backend** | `server/` (Express, port 3002) | `server/` (Express, port **3020** via `server/.env`) |
@@ -53,8 +53,72 @@ Modepro_Live/
 
 - **Node.js** 18+ (20 LTS recommended)
 - **npm** 9+
+- **MySQL** 8+ (for CMS content storage)
 
-No MySQL or CMS setup required.
+---
+
+## CMS setup (first time)
+
+1. Create the database:
+
+```bash
+mysql -u root -p < database/modepro_cms_setup.sql
+```
+
+2. Configure `server/.env` (copy from `server/.env.example`):
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=modepro_cms
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+JWT_SECRET=your-long-random-secret
+```
+
+3. Load seed data (choose **one**):
+
+**Option A — SQL file (recommended if `npm run seed` fails):**
+
+In MySQL Workbench or CLI, run in order:
+
+1. `database/modepro_cms_setup.sql` (schema — you may have done this already)
+2. `database/modepro_seed_data.sql` (all content + admin user)
+
+To regenerate the seed SQL from mocks after mock edits:
+
+```bash
+cd server
+npm run seed:sql
+```
+
+**Option B — Node seed script:**
+
+```bash
+cd server
+npm install
+npm run seed
+```
+
+Default admin (override with `ADMIN_EMAIL` / `ADMIN_PASSWORD` in `.env`):
+
+- Email: `admin@modepro.com`
+- Password: `Modepro@123`
+
+4. Open **http://localhost:5173/admin/login** after starting dev servers.
+
+### CMS admin tabs
+
+| Tab | Manages |
+|-----|---------|
+| Home | Hero slides, welcome, feature cards |
+| Header & Footer | Navigation + footer |
+| About | About page + info cards |
+| Products | Products page metadata |
+| Gallery | Gallery banners + images |
+| CMS Pages | R&D, Manufacturing, Quality, EHS, Capabilities, Careers, Contact (JSON) |
+| SMTP | Email settings |
+| Users | Admin users |
 
 ---
 
@@ -288,11 +352,13 @@ Kissflow webhook still runs in parallel — email failure does not block the for
 
 ---
 
-## Updating content (no CMS)
+## Updating content
 
-Content lives in **`client/src/mocks/`** (e.g. `homeData.ts`, `productsData.ts`, `contactData.ts`).
+**Preferred:** Use the CMS at `/admin/dashboard` — changes are stored in MySQL and served via `/api/v1/*`.
 
-After edits:
+**Fallback / initial seed:** Content in **`client/src/mocks/`** is imported by `npm run seed` and used when the API is unavailable.
+
+After CMS or mock edits in production:
 
 ```bash
 npm run build
@@ -317,6 +383,7 @@ npm start
 | `npm run build` | Build client → `client/out/` |
 | `npm start` | Run production server (serves `out` + API) |
 | `npm run type-check` | TypeScript check (`client/`) |
+| `npm run seed` | Import mocks → MySQL (`server/`) |
 
 ---
 

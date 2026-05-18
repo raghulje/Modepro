@@ -1,5 +1,8 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { productsData } from "@/mocks/productsData";
+import { useProductsData } from "@/hooks/cms/useProductsData";
+import { productsData as mockProductsData } from "@/mocks/productsData";
+
+type ProductGroups = (typeof mockProductsData.tabs)[number]["groups"];
 
 function formatCasNo(casNo: string) {
   return `[CAS NO. ${casNo} ]`;
@@ -8,7 +11,7 @@ function formatCasNo(casNo: string) {
 function ProductTable({
   groups,
 }: {
-  groups: (typeof productsData.tabs)[number]["groups"];
+  groups: ProductGroups;
 }) {
   let productRowIndex = 0;
 
@@ -61,6 +64,7 @@ function ProductTable({
 }
 
 export default function ProductsTabs() {
+  const { data: productsData } = useProductsData();
   const [activeTab, setActiveTab] = useState("intermediates");
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);

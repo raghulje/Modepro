@@ -15,3 +15,15 @@ exports.createdResponse = (res, message, data = null) =>
 
 exports.badRequestResponse = (res, message = 'Bad request') =>
   exports.responseStatus(res, 400, message);
+
+exports.errorResponse = (res, message, statusCode = 500) =>
+  exports.responseStatus(res, statusCode, message);
+
+exports.notFoundResponse = (res, message = 'Resource not found') =>
+  exports.responseStatus(res, 404, message);
+
+exports.unauthorizedResponse = (res, message = 'Unauthorized') =>
+  exports.responseStatus(res, 401, message);
+
+exports.forbiddenResponse = (res, message = 'Forbidden') =>
+  exports.responseStatus(res, 403, message);

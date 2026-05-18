@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { ehsData } from "@/mocks/ehsData";
+import { useEhsData } from "@/hooks/cms/pages";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function EhsHero() {
+  const { data: ehsData } = useEhsData();
   usePageTitle(pageTitles.ehs);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

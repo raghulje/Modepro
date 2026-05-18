@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { productsData } from "@/mocks/productsData";
+import { useProductsData } from "@/hooks/cms/useProductsData";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function ProductsHero() {
+  const { data: productsData } = useProductsData();
   usePageTitle(pageTitles.products);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

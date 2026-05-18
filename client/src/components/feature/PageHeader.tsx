@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { homeData } from "@/mocks/homeData";
+import { useSiteData } from "@/contexts/SiteDataContext";
 import { images } from "@/lib/assets";
 import { useMenuNavigation } from "@/hooks/useMenuNavigation";
 
@@ -27,6 +27,7 @@ interface PageHeaderProps {
 }
 
 export default function PageHeader({ className = "" }: PageHeaderProps) {
+  const { data: homeData } = useSiteData();
   const [menuOpen, setMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
     () => loadOpenSections()

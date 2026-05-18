@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { galleryData } from "@/mocks/galleryData";
+import { useGalleryData } from "@/hooks/cms/useGalleryData";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import PageBannerCarousel from "@/components/feature/PageBannerCarousel";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function GalleryHero() {
+  const { data: galleryData } = useGalleryData();
   usePageTitle(pageTitles.gallery);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

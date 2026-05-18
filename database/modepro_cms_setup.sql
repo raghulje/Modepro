@@ -1,0 +1,256 @@
+-- Modepro CMS database setup
+CREATE DATABASE IF NOT EXISTS modepro_cms CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE modepro_cms;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  full_name VARCHAR(255),
+  role ENUM('super_admin','admin','editor','viewer') NOT NULL DEFAULT 'editor',
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  last_login_at DATETIME NULL,
+  permissions JSON NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS media (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  file_name VARCHAR(255) NOT NULL,
+  file_path VARCHAR(500) NOT NULL,
+  file_type VARCHAR(50),
+  mime_type VARCHAR(100),
+  file_size INT,
+  alt_text VARCHAR(255),
+  page_name VARCHAR(100) NULL,
+  section_name VARCHAR(100) NULL,
+  uploaded_by INT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS global_settings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  setting_key VARCHAR(100) NOT NULL UNIQUE,
+  setting_value TEXT,
+  setting_type VARCHAR(50) DEFAULT 'text',
+  description VARCHAR(255),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS navigation_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  label VARCHAR(255) NOT NULL,
+  url VARCHAR(500) NOT NULL,
+  parent_id INT NULL,
+  order_index INT NOT NULL DEFAULT 0,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  open_in_new_tab TINYINT(1) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (parent_id) REFERENCES navigation_items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS footer_content (
+  id INT PRIMARY KEY DEFAULT 1,
+  office_title VARCHAR(255),
+  office_text TEXT,
+  factory_title VARCHAR(255),
+  factory_text TEXT,
+  careers_title VARCHAR(255),
+  careers_description TEXT,
+  careers_cta_text VARCHAR(100),
+  careers_cta_href VARCHAR(255),
+  copyright_text VARCHAR(255),
+  managed_by_text VARCHAR(255),
+  footer_navigation JSON,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS page_seo (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  page_slug VARCHAR(100) NOT NULL UNIQUE,
+  meta_title VARCHAR(255),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS hero_slides (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_path VARCHAR(500) NOT NULL,
+  alt_text VARCHAR(255),
+  order_index INT NOT NULL DEFAULT 0,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS home_welcome (
+  id INT PRIMARY KEY DEFAULT 1,
+  image_path VARCHAR(500),
+  title VARCHAR(500),
+  title_highlight VARCHAR(255),
+  paragraphs JSON,
+  cta_text VARCHAR(100),
+  cta_href VARCHAR(255),
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS home_feature_cards (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_path VARCHAR(500),
+  images JSON,
+  title VARCHAR(255) NOT NULL,
+  cta_text VARCHAR(100),
+  cta_href VARCHAR(255),
+  order_index INT NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS about_page (
+  id INT PRIMARY KEY DEFAULT 1,
+  banner_image VARCHAR(500),
+  banner_alt VARCHAR(255),
+  page_title VARCHAR(255),
+  who_we_are JSON,
+  our_people JSON,
+  manufacturing_location JSON,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS about_info_cards (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  card_key VARCHAR(100) NOT NULL UNIQUE,
+  title VARCHAR(255) NOT NULL,
+  image_path VARCHAR(500),
+  alt_text VARCHAR(255),
+  description TEXT,
+  paragraphs JSON,
+  order_index INT NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS product_categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  label VARCHAR(255) NOT NULL,
+  order_index INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS product_groups (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  category_id INT NOT NULL,
+  name VARCHAR(500) NOT NULL,
+  order_index INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (category_id) REFERENCES product_categories(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  group_id INT NOT NULL,
+  name VARCHAR(500) NOT NULL,
+  cas_no VARCHAR(100),
+  image_path VARCHAR(500),
+  order_index INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (group_id) REFERENCES product_groups(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS products_page (
+  id INT PRIMARY KEY DEFAULT 1,
+  banner_image VARCHAR(500),
+  banner_alt VARCHAR(255),
+  page_title VARCHAR(255),
+  intro_title VARCHAR(255),
+  intro_description TEXT,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS gallery_banner_slides (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_path VARCHAR(500) NOT NULL,
+  alt_text VARCHAR(255),
+  order_index INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS gallery_images (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  thumb_path VARCHAR(500) NOT NULL,
+  full_path VARCHAR(500) NOT NULL,
+  order_index INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS cms_pages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  content JSON NOT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contact_submissions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  company VARCHAR(255),
+  email VARCHAR(255) NOT NULL,
+  mobile VARCHAR(50),
+  city VARCHAR(255),
+  product VARCHAR(255),
+  message TEXT,
+  source VARCHAR(100),
+  metadata JSON,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS email_settings (
+  id INT PRIMARY KEY DEFAULT 1,
+  smtp_host VARCHAR(255),
+  smtp_port INT,
+  smtp_secure TINYINT(1) DEFAULT 1,
+  smtp_user VARCHAR(255),
+  smtp_password VARCHAR(255),
+  from_email VARCHAR(255),
+  from_name VARCHAR(255),
+  contact_form_email VARCHAR(255),
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS version_history (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  entity_type VARCHAR(100) NOT NULL,
+  entity_id INT NOT NULL,
+  version_number INT NOT NULL DEFAULT 1,
+  data JSON NOT NULL,
+  changes TEXT,
+  created_by INT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+  INDEX idx_version_entity (entity_type, entity_id),
+  INDEX idx_version_created (created_at)
+);
+
+CREATE TABLE IF NOT EXISTS activity_logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  action VARCHAR(100) NOT NULL,
+  entity_type VARCHAR(100),
+  entity_id INT,
+  details JSON,
+  ip_address VARCHAR(45),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS login_history (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  ip_address VARCHAR(45),
+  user_agent TEXT,
+  success TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

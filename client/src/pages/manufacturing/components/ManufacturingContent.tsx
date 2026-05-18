@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { manufacturingData } from "@/mocks/manufacturingData";
+import { useManufacturingData } from "@/hooks/cms/pages";
 import OriginalBulletList from "@/components/feature/OriginalBulletList";
 
 function FacilityItem({ text, index }: { text: string; index: number }) {
@@ -14,6 +14,7 @@ function FacilityItem({ text, index }: { text: string; index: number }) {
 }
 
 export default function ManufacturingContent() {
+  const { data: manufacturingData } = useManufacturingData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

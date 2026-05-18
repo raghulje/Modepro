@@ -6,6 +6,7 @@
 export const images = {
   logo: "/images/logo_new1a.png",
   footerLogo: "/images/ftlogo.png",
+  scrollTop: "/images/up.png",
 } as const;
 
 /** Build a local image path from a site-relative images path, e.g. "banner2.jpg" */

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { qualityData } from "@/mocks/qualityData";
+import { useQualityData } from "@/hooks/cms/pages";
 import OriginalBulletList from "@/components/feature/OriginalBulletList";
 
 export default function QualityContent() {
+  const { data: qualityData } = useQualityData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

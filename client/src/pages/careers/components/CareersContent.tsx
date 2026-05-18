@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { careersData } from "@/mocks/careersData";
+import { useCareersData } from "@/hooks/cms/pages";
 
 function SectionTitle({
   children,
@@ -16,6 +16,7 @@ function SectionTitle({
 }
 
 export default function CareersContent() {
+  const { data: careersData } = useCareersData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { galleryData } from "@/mocks/galleryData";
+import { useGalleryData } from "@/hooks/cms/useGalleryData";
 
 export default function GalleryGrid() {
+  const { data: galleryData } = useGalleryData();
   const [isVisible, setIsVisible] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);

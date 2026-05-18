@@ -1,4 +1,5 @@
-import { homeData } from "@/mocks/homeData";
+import { images } from "@/lib/assets";
+import { useSiteData } from "@/contexts/SiteDataContext";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -7,6 +8,7 @@ export default function Footer() {
     }
   };
 
+  const { data: homeData } = useSiteData();
   const { footer } = homeData;
 
   return (
@@ -52,17 +54,6 @@ export default function Footer() {
             <p className="copy-text">{footer.copyright}</p>
             <div className="footer-managed">
               <p className="footer-managed-label">{footer.managedBy.text}</p>
-              <a
-                href={footer.managedBy.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-managed-logo"
-              >
-                <img
-                  src={footer.managedBy.logo}
-                  alt="Effervescent Communications"
-                />
-              </a>
             </div>
           </div>
 
@@ -73,21 +64,13 @@ export default function Footer() {
             aria-label="Scroll to top"
             title="Scroll to top"
           >
-            <svg
+            <img
+              src={images.scrollTop}
+              alt=""
               className="footer-scroll-top-icon"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M7 2.5L7 11.5M7 2.5L3.5 6M7 2.5L10.5 6"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              width={40}
+              height={60}
+            />
           </button>
         </div>
       </div>

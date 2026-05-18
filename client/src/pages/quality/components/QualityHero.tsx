@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { qualityData } from "@/mocks/qualityData";
+import { useQualityData } from "@/hooks/cms/pages";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function QualityHero() {
+  const { data: qualityData } = useQualityData();
   usePageTitle(pageTitles.quality);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

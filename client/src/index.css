@@ -228,26 +228,25 @@
   }
 
   .footer-scroll-top {
-    @apply absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center;
+    @apply absolute right-0 top-1/2 -translate-y-1/2;
     width: 40px;
-    height: 40px;
+    height: 60px;
     padding: 0;
     cursor: pointer;
     border: 0;
-    border-radius: 50%;
-    background-color: #0798bc;
-    color: #07273d;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
+    background: transparent;
+    transition: opacity 0.2s ease;
   }
 
   .footer-scroll-top:hover {
-    background-color: #0999bd;
+    opacity: 0.85;
   }
 
   .footer-scroll-top-icon {
     display: block;
-    width: 14px;
-    height: 14px;
+    width: 40px;
+    height: 60px;
+    object-fit: contain;
   }
 
   /* Side menu — menu.css + navgoco behaviour */

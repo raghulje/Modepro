@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { contactData } from "@/mocks/contactData";
+import { useContactData } from "@/hooks/cms/pages";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function ContactHero() {
+  const { data: contactData } = useContactData();
   usePageTitle(pageTitles.contact);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

@@ -11,6 +11,9 @@ import Capabilities from "../pages/capabilities/page";
 import Careers from "../pages/careers/page";
 import Gallery from "../pages/gallery/page";
 import Contact from "../pages/contact/page";
+import AdminLoginPage from "../pages/admin/login/page";
+import AdminDashboardPage from "../pages/admin/dashboard/page";
+import { ProtectedRoute } from "../components/auth/ProtectedRoute";
 
 const routes: RouteObject[] = [
   {
@@ -56,6 +59,18 @@ const routes: RouteObject[] = [
   {
     path: "/contact",
     element: <Contact />,
+  },
+  {
+    path: "/admin/login",
+    element: <AdminLoginPage />,
+  },
+  {
+    path: "/admin/dashboard",
+    element: (
+      <ProtectedRoute>
+        <AdminDashboardPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "*",

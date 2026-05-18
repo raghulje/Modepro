@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { aboutData } from "@/mocks/aboutData";
+import { useAboutData } from "@/hooks/cms/useAboutData";
 
 export default function InfoCards() {
+  const { data: aboutData } = useAboutData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

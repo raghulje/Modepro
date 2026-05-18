@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { aboutData } from "@/mocks/aboutData";
+import { useAboutData } from "@/hooks/cms/useAboutData";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function AboutHero() {
+  const { data: aboutData } = useAboutData();
   usePageTitle(pageTitles.about);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

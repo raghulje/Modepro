@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { rndData } from "@/mocks/rndData";
+import { useRndData } from "@/hooks/cms/pages";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function RndHero() {
+  const { data: rndData } = useRndData();
   usePageTitle(pageTitles.rnd);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

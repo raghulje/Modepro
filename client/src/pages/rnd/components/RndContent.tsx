@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { rndData } from "@/mocks/rndData";
+import { useRndData } from "@/hooks/cms/pages";
 import OriginalBulletList from "@/components/feature/OriginalBulletList";
 
 export default function RndContent() {
+  const { data: rndData } = useRndData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

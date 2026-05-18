@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { capabilitiesData } from "@/mocks/capabilitiesData";
+import { useCapabilitiesData } from "@/hooks/cms/pages";
 import PageHeader from "@/components/feature/PageHeader";
 import BreadcrumbBar from "@/components/feature/BreadcrumbBar";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { pageTitles } from "@/mocks/pageTitles";
 
 export default function CapabilitiesHero() {
+  const { data: capabilitiesData } = useCapabilitiesData();
   usePageTitle(pageTitles.capabilities);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);

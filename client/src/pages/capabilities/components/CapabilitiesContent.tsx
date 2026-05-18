@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { capabilitiesData } from "@/mocks/capabilitiesData";
+import { useCapabilitiesData } from "@/hooks/cms/pages";
 
 export default function CapabilitiesContent() {
+  const { data: capabilitiesData } = useCapabilitiesData();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 

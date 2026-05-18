@@ -17,9 +17,10 @@ export function buildContactProductOptions(): ContactProductOption[] {
         const name = String(product.name || "").trim();
         if (!name) continue;
         const casSuffix = product.casNo ? ` (CAS ${product.casNo})` : "";
+        const display = `${name}${casSuffix}`;
         options.push({
-          value: `${tab.label} | ${group.name} | ${name}${casSuffix}`,
-          label: `${name}${casSuffix}`,
+          value: display,
+          label: display,
           category: `${tab.label} — ${group.name}`,
         });
       }
