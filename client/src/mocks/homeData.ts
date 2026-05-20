@@ -146,9 +146,7 @@ export const homeData = {
     },
     copyright: "Copyright 2024 Modepro India Pvt. Ltd.",
     managedBy: {
-      text: "Managed by",
-      logo: "/images/ftlogo.png",
-      href: "https://www.effervescent.in",
+      text: "Managed by Refex AI Team",
     },
   },
 };

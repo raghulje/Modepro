@@ -56,17 +56,6 @@ export default function Footer() {
             <p className="copy-text">{footer.copyright}</p>
             <TAG className="footer-managed">
               <p className="footer-managed-label">{footer.managedBy.text}</p>
-              <a
-                href={footer.managedBy.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-managed-logo"
-              >
-                <img
-                  src={footer.managedBy.logo}
-                  alt="Effervescent Communications"
-                />
-              </a>
             </TAG>
           </TAG>
 
