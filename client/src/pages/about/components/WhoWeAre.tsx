@@ -57,7 +57,7 @@ export default function WhoWeAre() {
               <a href="#whoweare">{aboutData.whoWeAre.title}</a>
             </div>
             <div className="about-who-we-info-text space-y-4">
-              {aboutData.whoWeAre.paragraphs.map((paragraph, index) => (
+              {(aboutData.whoWeAre?.paragraphs ?? []).map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>

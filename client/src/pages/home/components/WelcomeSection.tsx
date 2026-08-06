@@ -51,7 +51,7 @@ export default function WelcomeSection() {
               <span>{homeData.welcome.titleHighlight}</span>
             </div>
             <div className="welcome-info-text space-y-4">
-              {homeData.welcome.paragraphs.map((paragraph, index) => (
+              {(homeData.welcome?.paragraphs ?? []).map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>

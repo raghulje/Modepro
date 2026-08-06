@@ -22,17 +22,31 @@ exports.getAbout = async (req, res) => {
         { label: 'ABOUT MODEPRO', href: '/about' },
       ],
       pageTitle: page.pageTitle,
-      whoWeAre: page.whoWeAre,
+      whoWeAre: page.whoWeAre
+        ? {
+            ...page.whoWeAre,
+            paragraphs: Array.isArray(page.whoWeAre.paragraphs)
+              ? page.whoWeAre.paragraphs
+              : [],
+          }
+        : page.whoWeAre,
       ourPeople: page.ourPeople,
       manufacturingLocation: page.manufacturingLocation,
-      infoCards: infoCards.map((c) => ({
-        id: c.cardKey,
-        title: c.title,
-        image: c.imagePath,
-        alt: c.altText,
-        description: c.description,
-        paragraphs: c.paragraphs,
-      })),
+      infoCards: infoCards.map((c) => {
+        const paragraphs = Array.isArray(c.paragraphs)
+          ? c.paragraphs.filter((p) => p != null && String(p).trim())
+          : [];
+        const base = {
+          id: c.cardKey,
+          title: c.title,
+          image: c.imagePath,
+          alt: c.altText,
+        };
+        if (paragraphs.length > 0) {
+          return { ...base, paragraphs };
+        }
+        return { ...base, description: c.description || '' };
+      }),
     });
   } catch (error) {
     return status.errorResponse(res, error.message);

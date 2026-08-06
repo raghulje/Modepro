@@ -35,7 +35,7 @@ export default function QualityContent() {
                 <div className="subsection-title">
                   <a href="#assurance">{qualityData.qualityAssurance.title}</a>
                 </div>
-                {qualityData.qualityAssurance.paragraphs.map((p, i) => (
+                {(qualityData.qualityAssurance?.paragraphs ?? []).map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
               </div>

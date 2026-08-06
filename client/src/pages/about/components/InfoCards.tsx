@@ -24,7 +24,7 @@ export default function InfoCards() {
     <section ref={sectionRef} className="pro-quality-respect-envi-main py-[3%]">
       <div className="container-site">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {aboutData.infoCards.map((card, index) => (
+          {(aboutData.infoCards ?? []).map((card, index) => (
             <div
               key={card.id}
               id={card.id}
@@ -43,7 +43,7 @@ export default function InfoCards() {
                 alt={card.alt}
                 className="mx-auto mb-4 h-28 md:h-36 w-auto object-contain block"
               />
-              {"paragraphs" in card ? (
+              {Array.isArray(card.paragraphs) && card.paragraphs.length > 0 ? (
                 <div className="quality-info-text space-y-3">
                   {card.paragraphs.map((p, i) => (
                     <p key={i}>{p}</p>

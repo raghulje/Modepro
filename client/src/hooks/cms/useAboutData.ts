@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
 import { mergeWithMock } from "@/utils/breadcrumbs";
+import { normalizeAboutData } from "@/utils/normalizeAboutData";
 import { aboutData as mockAboutData } from "@/mocks/aboutData";
 
 export function useAboutData() {
@@ -13,7 +14,7 @@ export function useAboutData() {
       try {
         const res = await api.get<typeof mockAboutData>("/about");
         if (!cancelled && res.success && res.data) {
-          setData(mergeWithMock(mockAboutData, res.data));
+          setData(normalizeAboutData(mergeWithMock(mockAboutData, res.data)));
         }
       } catch {
         // keep mocks

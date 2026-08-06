@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
+import { asStringArray } from "@/utils/safeArrays";
 import { homeData as mockHomeData } from "@/mocks/homeData";
 
 export function useHomeData() {
@@ -29,7 +30,15 @@ export function useHomeData() {
             company: homeRes.data.company,
             navLinks: navRes.success && navRes.data ? navRes.data : mockHomeData.navLinks,
             heroSlides: homeRes.data.heroSlides,
-            welcome: homeRes.data.welcome || mockHomeData.welcome,
+            welcome: homeRes.data.welcome
+              ? {
+                  ...mockHomeData.welcome,
+                  ...homeRes.data.welcome,
+                  paragraphs: asStringArray(
+                    homeRes.data.welcome.paragraphs ?? mockHomeData.welcome.paragraphs
+                  ),
+                }
+              : mockHomeData.welcome,
             features: homeRes.data.features,
             footer: footerRes.success && footerRes.data ? footerRes.data : mockHomeData.footer,
           });
